@@ -25,4 +25,4 @@ import { LinkButton } from './components/link-button/link-button';
     .avatar { width: 120px; border-radius: 50%; border: 3px solid #ccc; }
   `]
 })
-export class AppComponent {}
+export class App {}
