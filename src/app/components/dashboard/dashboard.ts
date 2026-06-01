@@ -28,14 +28,16 @@ interface ClickLog {
               <th>ID</th>
               <th>Date & Heure</th>
               <th>Lien Cible</th>
-              <th>Source</th> </tr>
+              <th>Source</th>
+            </tr>
           </thead>
           <tbody>
             <tr *ngFor="let click of clicks">
               <td>#{{ click.id }}</td>
               <td>{{ click.clickedAt | date:'dd/MM/yyyy HH:mm' }}</td>
               <td class="highlight">{{ click.targetUrl }}</td>
-              <td>{{ click.source }}</td> </tr>
+              <td>{{ click.source }}</td>
+            </tr>
           </tbody>
         </table>
         
@@ -46,14 +48,32 @@ interface ClickLog {
     </div>
   `,
   styles: [`
-    .admin-container { min-height: 100vh; background-color: #050505; color: #ffffff; padding: 2rem; font-family: 'Montserrat', sans-serif; }
-    header { margin-bottom: 2rem; border-bottom: 1px solid #333; padding-bottom: 1rem; }
+    .admin-container { 
+      min-height: 100vh; 
+      background-color: #050505; 
+      color: #ffffff; 
+      padding: 2rem; 
+      font-family: 'Montserrat', sans-serif; 
+    }
+    header { 
+      margin-bottom: 2rem; 
+      border-bottom: 1px solid #333; 
+      padding-bottom: 1rem; 
+    }
     h1 { color: #dca78a; margin: 0; font-size: 1.8rem; }
     p { color: #888; font-size: 0.9rem; }
-    .table-wrapper { background: #111; border-radius: 8px; padding: 1rem; border: 1px solid #222; overflow-x: auto; }
+    
+    .table-wrapper { 
+      background: #111; 
+      border-radius: 8px; 
+      padding: 1rem; 
+      border: 1px solid #222; 
+      overflow-x: auto; 
+    }
     table { width: 100%; border-collapse: collapse; text-align: left; }
     th { padding: 12px; border-bottom: 1px solid #333; color: #888; font-weight: 500; }
     td { padding: 12px; border-bottom: 1px solid #222; }
+    
     .highlight { color: #dca78a; }
     tr:hover { background-color: #1a1a1a; }
     .loading { text-align: center; color: #888; padding: 2rem; }
@@ -78,7 +98,7 @@ export class Dashboard implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Erreur:', err);
+        console.error('Erreur lors du chargement des clics:', err);
       }
     });
   }
