@@ -10,41 +10,27 @@ import { HttpClient } from '@angular/common/http';
     </a>
   `,
   styles: [`
-    .link-btn {
-      display: block;
-      width: 100%;
-      padding: 1rem;
-      margin: 10px 0;
-      background: #1a1a1a;
-      color: white;
-      text-align: center;
-      text-decoration: none;
-      border-radius: 12px;
-      font-weight: bold;
-      transition: transform 0.2s, background 0.3s;
-      border: 2px solid #333;
-    }
-    .link-btn:hover {
-      background: #333;
-      transform: scale(1.02);
-    }
+    .link-btn { display: block; width: 100%; padding: 1rem; margin: 10px 0; background: #1a1a1a; color: white; text-align: center; text-decoration: none; border-radius: 12px; font-weight: bold; transition: transform 0.2s, background 0.3s; border: 2px solid #333; }
+    .link-btn:hover { background: #333; transform: scale(1.02); }
   `]
 })
-// link-button.ts
 export class LinkButton {
   @Input() url!: string;
-  @Input() sourceName: string = 'Inconnu'; 
+  // Utilisation d'un alias 'sourceName' pour forcer la liaison avec l'attribut HTML
+  @Input('sourceName') sourceName: string = 'Inconnu'; 
 
   private http = inject(HttpClient);
   private apiUrl = 'https://linkhub-api.fly.dev/api/track-click';
 
   trackClick() {
-    console.log("Source reçue par le bouton :", this.sourceName);
+    console.log("Clic envoyé au serveur avec la source :", this.sourceName);
     const payload = {
       targetUrl: this.url,
       source: this.sourceName
     };
 
-    this.http.post(this.apiUrl, payload).subscribe();
+    this.http.post(this.apiUrl, payload).subscribe({
+      error: (err) => console.error("Erreur tracking:", err)
+    });
   }
 }
