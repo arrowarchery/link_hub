@@ -5,8 +5,7 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-link-button',
   standalone: true,
   template: `
-    <!-- On utilise un (click) pour déclencher le tracking -->
-    <a [href]="url" target="_blank" class="link-btn" (click)="trackClick(sourceName)">
+    <a [href]="url" target="_blank" class="link-btn" (click)="trackClick()">
       <ng-content></ng-content>
     </a>
   `,
@@ -33,20 +32,23 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LinkButton {
   @Input() url!: string;
-  // On change le nom pour forcer la mise à jour du binding
   @Input('data-source') dataSource: string = 'Inconnu'; 
 
   private http = inject(HttpClient);
   private apiUrl = 'https://linkhub-api.fly.dev/api/track-click';
 
   trackClick() {
-    console.log("Clic détecté pour la source :", this.dataSource); // DEBUG : Regardez votre console F12
+    // On utilise bien this.dataSource ici
+    console.log("Clic détecté pour la source :", this.dataSource);
     
     const payload = {
       targetUrl: this.url,
-      source: this.dataSource // On utilise le nouveau nom
+      source: this.dataSource
     };
 
-    this.http.post(this.apiUrl, payload).subscribe();
+    this.http.post(this.apiUrl, payload).subscribe({
+      next: () => console.log("Tracking envoyé avec succès"),
+      error: (err) => console.error("Erreur de tracking", err)
+    });
   }
 }
