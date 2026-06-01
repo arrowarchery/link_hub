@@ -7,13 +7,19 @@ import { LinkButton } from '../link-button/link-button'; // Vérifiez le chemin 
   imports: [LinkButton],
   template: `
     <div class="links-section">
-      <app-link-button url="https://mym.fans/Arrowarcherysex" sourceName="MYM" class="premium-link">
-         ACCÈS EXCLUSIF 🔞
-      </app-link-button>
+      <app-link-button 
+  url="https://mym.fans/Arrowarcherysex" 
+  data-source="MYM" 
+  class="premium-link">
+  ACCÈS EXCLUSIF 🔞
+</app-link-button>
 
-      <app-link-button url="https://www.instagram.com/arrowarcherysex/" sourceName="Instagram" class="standard-link">
-         Instagram
-      </app-link-button>
+<app-link-button 
+  url="https://www.instagram.com/arrowarcherysex/" 
+  data-source="Instagram" 
+  class="standard-link">
+  Instagram
+</app-link-button>
     </div>
   `,
   styles: [`
