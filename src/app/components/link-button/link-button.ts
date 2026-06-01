@@ -36,7 +36,7 @@ export class LinkButton {
   @Input() sourceName: string = 'Instagram'; // Par défaut
 
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:5001/api/track-click'; // URL locale pour les tests
+  private apiUrl = 'https://localhost:5134/api/track-click'; // URL locale pour les tests
 
   trackClick() {
     const payload = {
