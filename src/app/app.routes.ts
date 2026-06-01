@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
-import { App } from './app';
+import { Home } from './components/home/home'; 
 import { Dashboard } from './components/dashboard/dashboard';
 
 export const routes: Routes = [
-  { path: '', component: App }, 
+  // C'EST ICI QUE CA CHANGE : on affiche Home, pas App
+  { path: '', component: Home }, 
   { path: 'admin-secret', component: Dashboard }, 
 ];
