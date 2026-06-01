@@ -10,7 +10,7 @@ import { LinkButton } from './components/link-button/link-button';
       <div class="glow-bg"></div>
 
       <div class="content-wrapper">
-        <img src="assets/logo.jpg" alt="ArrowArchery Logo" class="main-logo">
+        <img src="/assets/logo.jpg" alt="ArrowArchery Logo" class="main-logo">
         
         <h1 class="brand-title">ARROWARCHERYSEX</h1>
         <p class="brand-subtitle">CONTENU EXCLUSIF</p>
