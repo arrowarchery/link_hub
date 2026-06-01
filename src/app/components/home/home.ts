@@ -23,6 +23,13 @@ import { LinkButton } from '../link-button/link-button';
           class="luxury-link">
           INSTAGRAM
         </app-link-button>
+        
+        <app-link-button 
+          url="https://fr.stripchat.com/ArrowArcherySex/profile" 
+          [sourceName]="'Stripchat'" 
+          class="luxury-link">
+          STRIPCCHAT
+        </app-link-button>
       </div>
     </div>
   `,
