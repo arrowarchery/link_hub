@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-link-button',
   standalone: true,
   template: `
-    <a [href]="url" target="_blank" class="link-btn">
+    <!-- On utilise un (click) pour déclencher le tracking -->
+    <a [href]="url" target="_blank" class="link-btn" (click)="trackClick()">
       <ng-content></ng-content>
     </a>
   `,
@@ -31,4 +33,20 @@ import { Component, Input } from '@angular/core';
 })
 export class LinkButton {
   @Input() url!: string;
+  @Input() sourceName: string = 'Instagram'; // Par défaut
+
+  private http = inject(HttpClient);
+  private apiUrl = 'https://localhost:5001/api/track-click'; // URL locale pour les tests
+
+  trackClick() {
+    const payload = {
+      targetUrl: this.url,
+      source: this.sourceName
+    };
+
+    // Le clic est envoyé en arrière-plan (fire and forget) pour ne pas ralentir la redirection de l'utilisateur
+    this.http.post(this.apiUrl, payload).subscribe({
+      error: (err) => console.error('Erreur de tracking', err)
+    });
+  }
 }

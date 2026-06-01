@@ -15,7 +15,7 @@ import { LinkButton } from './components/link-button/link-button';
         🔥 ACCÈS EXCLUSIF MYM 🔞
       </app-link-button>
 
-      <app-link-button url="https://instagram.com/votre-insta">
+      <app-link-button url="https://instagram.com/arrowarcherysex">
         Instagram
       </app-link-button>
     </div>
