@@ -58,7 +58,7 @@ interface ClickLog {
     .admin-container { min-height: 100vh; background-color: #050505; color: #ffffff; padding: 2rem; font-family: 'Montserrat', sans-serif; }
     header { margin-bottom: 2rem; border-bottom: 1px solid #333; padding-bottom: 1rem; }
     h1 { color: #dca78a; margin: 0; font-size: 1.8rem; }
-    .chart-wrapper { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 20px; max-width: 400px; border: 1px solid #222; }
+    .chart-wrapper { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 20px; max-width: 400px; height: 300px; border: 1px solid #222; }
     .table-wrapper { background: #111; border-radius: 8px; padding: 1rem; border: 1px solid #222; overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; }
     th { padding: 12px; border-bottom: 1px solid #333; color: #888; font-weight: 500; text-align: left; }
@@ -91,12 +91,13 @@ export class Dashboard implements OnInit {
 
   fetchStats() {
     this.http.get<any[]>(this.statsUrl).subscribe(data => {
-      this.renderChart(data);
+      // setTimeout garantit que le canvas est prêt dans le DOM
+      setTimeout(() => this.renderChart(data), 0);
     });
   }
 
   renderChart(data: any[]) {
-    if (this.chart) this.chart.destroy(); // Nettoyer si déjà existant
+    if (this.chart) this.chart.destroy();
     
     this.chart = new Chart("sourceChart", {
       type: 'pie',
@@ -109,8 +110,12 @@ export class Dashboard implements OnInit {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-          legend: { labels: { color: '#ffffff' } }
+          legend: { 
+            position: 'bottom',
+            labels: { color: '#ffffff' } 
+          }
         }
       }
     });
