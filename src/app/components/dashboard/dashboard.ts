@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
@@ -23,7 +23,7 @@ interface ClickLog {
       </header>
 
       <div class="table-wrapper">
-        <table *ngIf="clicks.length > 0; else noData">
+        <table *ngIf="clicks && clicks.length > 0; else noData">
           <thead>
             <tr>
               <th>ID</th>
@@ -78,6 +78,7 @@ interface ClickLog {
 })
 export class Dashboard implements OnInit {
   private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
   
   // Remplacez par l'URL exacte de votre API Fly.io
   private apiUrl = 'https://linkhub-api.fly.dev/api/clicks'; 
@@ -88,14 +89,10 @@ export class Dashboard implements OnInit {
     this.fetchClicks();
   }
 
-  fetchClicks() {
-    this.http.get<ClickLog[]>(this.apiUrl).subscribe({
-      next: (data) => {
-        this.clicks = data;
-      },
-      error: (err) => {
-        console.error('Erreur lors de la récupération des clics', err);
-      }
+fetchClicks() {
+    this.http.get<ClickLog[]>(this.apiUrl).subscribe((data) => {
+      this.clicks = data;
+      this.cdr.detectChanges(); // 2. Forcer Angular à rafraîchir la vue
     });
   }
 }
