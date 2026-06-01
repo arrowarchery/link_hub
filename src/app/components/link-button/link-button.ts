@@ -30,25 +30,21 @@ import { HttpClient } from '@angular/common/http';
     }
   `]
 })
+// link-button.ts
 export class LinkButton {
   @Input() url!: string;
-  @Input('data-source') dataSource: string = 'Inconnu'; 
+  @Input() sourceName: string = 'Inconnu'; 
 
   private http = inject(HttpClient);
   private apiUrl = 'https://linkhub-api.fly.dev/api/track-click';
 
   trackClick() {
-    // On utilise bien this.dataSource ici
-    console.log("Clic détecté pour la source :", this.dataSource);
-    
+    console.log("Source reçue par le bouton :", this.sourceName);
     const payload = {
       targetUrl: this.url,
-      source: this.dataSource
+      source: this.sourceName
     };
 
-    this.http.post(this.apiUrl, payload).subscribe({
-      next: () => console.log("Tracking envoyé avec succès"),
-      error: (err) => console.error("Erreur de tracking", err)
-    });
+    this.http.post(this.apiUrl, payload).subscribe();
   }
 }
