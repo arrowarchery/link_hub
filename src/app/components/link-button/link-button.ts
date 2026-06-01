@@ -33,7 +33,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LinkButton {
   @Input() url!: string;
-  @Input() sourceName: string = 'Instagram'; // Par défaut
+  @Input() sourceName: string = 'Inconnu'; // Par défaut
 
   private http = inject(HttpClient);
   private apiUrl = 'https://linkhub-api.fly.dev/api/track-click';

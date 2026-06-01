@@ -13,13 +13,13 @@ import { LinkButton } from '../link-button/link-button'; // Vérifiez le chemin 
       <p class="brand-subtitle">CONTENU EXCLUSIF</p>
 
       <div class="links-section">
-        <app-link-button url="https://mym.fans/Arrowarcherysex" class="premium-link">
-           ACCÈS EXCLUSIF 🔞
-        </app-link-button>
+        <app-link-button url="https://mym.fans/Arrowarcherysex" sourceName="MYM" class="premium-link">
+   ACCÈS EXCLUSIF 🔞
+</app-link-button>
 
-        <app-link-button url="https://www.instagram.com/arrowarcherysex/" class="standard-link">
-          Instagram
-        </app-link-button>
+<app-link-button url="https://www.instagram.com/arrowarcherysex/" sourceName="Instagram" class="standard-link">
+  Instagram
+</app-link-button>
       </div>
     </div>
   `,
