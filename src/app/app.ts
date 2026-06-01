@@ -137,4 +137,4 @@ import { LinkButton } from './components/link-button/link-button';
     }
   `]
 })
-export class AppComponent {}
+export class App {}
