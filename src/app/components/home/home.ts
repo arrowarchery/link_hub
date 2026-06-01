@@ -6,21 +6,14 @@ import { LinkButton } from '../link-button/link-button'; // Vérifiez le chemin 
   standalone: true,
   imports: [LinkButton],
   template: `
-    <div class="content-wrapper">
-      <img src="/assets/logo.jpg" alt="ArrowArchery Logo" class="main-logo">
-      
-      <h1 class="brand-title">ARROWARCHERYSEX</h1>
-      <p class="brand-subtitle">CONTENU EXCLUSIF</p>
+    <div class="links-section">
+      <app-link-button url="https://mym.fans/Arrowarcherysex" sourceName="MYM" class="premium-link">
+         ACCÈS EXCLUSIF 🔞
+      </app-link-button>
 
-      <div class="links-section">
-        <app-link-button url="https://mym.fans/Arrowarcherysex" sourceName="MYM" class="premium-link">
-   ACCÈS EXCLUSIF 🔞
-</app-link-button>
-
-<app-link-button url="https://www.instagram.com/arrowarcherysex/" sourceName="Instagram" class="standard-link">
-  Instagram
-</app-link-button>
-      </div>
+      <app-link-button url="https://www.instagram.com/arrowarcherysex/" sourceName="Instagram" class="standard-link">
+         Instagram
+      </app-link-button>
     </div>
   `,
   styles: [`

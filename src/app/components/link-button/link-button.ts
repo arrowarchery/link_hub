@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   template: `
     <!-- On utilise un (click) pour déclencher le tracking -->
-    <a [href]="url" target="_blank" class="link-btn" (click)="trackClick()">
+    <a [href]="url" target="_blank" class="link-btn" (click)="trackClick(sourceName)">
       <ng-content></ng-content>
     </a>
   `,
@@ -38,15 +38,14 @@ export class LinkButton {
   private http = inject(HttpClient);
   private apiUrl = 'https://linkhub-api.fly.dev/api/track-click';
 
-  trackClick() {
+  trackClick(source: string) { // On passe la source ici
     const payload = {
       targetUrl: this.url,
-      source: this.sourceName
+      source: source // On utilise la valeur passée en argument
     };
 
-    // Le clic est envoyé en arrière-plan (fire and forget) pour ne pas ralentir la redirection de l'utilisateur
     this.http.post(this.apiUrl, payload).subscribe({
       error: (err) => console.error('Erreur de tracking', err)
     });
-  }
+}
 }
