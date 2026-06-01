@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Chart, registerables } from 'chart.js'; // Import de Chart.js
+
+Chart.register(...registerables);
 
 interface ClickLog {
   id: number;
@@ -17,9 +20,13 @@ interface ClickLog {
   template: `
     <div class="admin-container">
       <header>
-        <h1>Panneau d'Administration</h1>
-        <p>Statistiques des clics en temps réel</p>
+        <h1>Tableau de Bord Precoluma</h1>
+        <p>Analyse de performance des sources</p>
       </header>
+
+      <div class="chart-wrapper">
+        <canvas id="sourceChart"></canvas>
+      </div>
 
       <div class="table-wrapper">
         <table *ngIf="clicks && clicks.length > 0; else noData">
@@ -42,40 +49,21 @@ interface ClickLog {
         </table>
         
         <ng-template #noData>
-          <p class="loading">Aucun clic enregistré pour le moment...</p>
+          <p class="loading">Aucun clic enregistré...</p>
         </ng-template>
       </div>
     </div>
   `,
   styles: [`
-    .admin-container { 
-      min-height: 100vh; 
-      background-color: #050505; 
-      color: #ffffff; 
-      padding: 2rem; 
-      font-family: 'Montserrat', sans-serif; 
-    }
-    header { 
-      margin-bottom: 2rem; 
-      border-bottom: 1px solid #333; 
-      padding-bottom: 1rem; 
-    }
+    .admin-container { min-height: 100vh; background-color: #050505; color: #ffffff; padding: 2rem; font-family: 'Montserrat', sans-serif; }
+    header { margin-bottom: 2rem; border-bottom: 1px solid #333; padding-bottom: 1rem; }
     h1 { color: #dca78a; margin: 0; font-size: 1.8rem; }
-    p { color: #888; font-size: 0.9rem; }
-    
-    .table-wrapper { 
-      background: #111; 
-      border-radius: 8px; 
-      padding: 1rem; 
-      border: 1px solid #222; 
-      overflow-x: auto; 
-    }
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-    th { padding: 12px; border-bottom: 1px solid #333; color: #888; font-weight: 500; }
+    .chart-wrapper { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 20px; max-width: 400px; border: 1px solid #222; }
+    .table-wrapper { background: #111; border-radius: 8px; padding: 1rem; border: 1px solid #222; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: 12px; border-bottom: 1px solid #333; color: #888; font-weight: 500; text-align: left; }
     td { padding: 12px; border-bottom: 1px solid #222; }
-    
     .highlight { color: #dca78a; }
-    tr:hover { background-color: #1a1a1a; }
     .loading { text-align: center; color: #888; padding: 2rem; }
   `]
 })
@@ -84,21 +72,46 @@ export class Dashboard implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   
   private apiUrl = 'https://linkhub-api.fly.dev/api/clicks'; 
+  private statsUrl = 'https://linkhub-api.fly.dev/api/stats';
   
   clicks: ClickLog[] = [];
+  chart: any;
 
   ngOnInit() {
     this.fetchClicks();
+    this.fetchStats();
   }
 
   fetchClicks() {
-    this.http.get<ClickLog[]>(this.apiUrl).subscribe({
-      next: (data) => {
-        this.clicks = data;
-        this.cdr.detectChanges();
+    this.http.get<ClickLog[]>(this.apiUrl).subscribe(data => {
+      this.clicks = data;
+      this.cdr.detectChanges();
+    });
+  }
+
+  fetchStats() {
+    this.http.get<any[]>(this.statsUrl).subscribe(data => {
+      this.renderChart(data);
+    });
+  }
+
+  renderChart(data: any[]) {
+    if (this.chart) this.chart.destroy(); // Nettoyer si déjà existant
+    
+    this.chart = new Chart("sourceChart", {
+      type: 'pie',
+      data: {
+        labels: data.map(d => d.source),
+        datasets: [{
+          data: data.map(d => d.count),
+          backgroundColor: ['#dca78a', '#444444', '#666666']
+        }]
       },
-      error: (err) => {
-        console.error('Erreur lors du chargement des clics:', err);
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: '#ffffff' } }
+        }
       }
     });
   }
