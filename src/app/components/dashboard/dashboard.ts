@@ -38,7 +38,6 @@ interface ClickLog {
               <!-- Formater la date proprement -->
               <td>{{ click.clickedAt | date:'dd/MM/yyyy HH:mm' }}</td>
               <td class="highlight">{{ click.targetUrl }}</td>
-              <td>{{ click.source }}</td>
             </tr>
           </tbody>
         </table>
